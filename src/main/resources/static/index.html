@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring Tweets</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+
+<body>
+    <div>
+        <h1>Spring Tweets!</h1>
+        <ul>
+            <li v-for="friend in friends" @click="showFriend(friend)">{{ friend.id }}</li>
+        </ul>
+    </div>
+
+    <div class="details" v-show="showDetails">
+        <h2>Friend Details</h2>
+        <p>
+            <a href="" target="_blank"></a>
+        </p>
+
+    </div>
+
+
+    <script>
+        const apiURL = "http://localhos:8080/api/twitter";
+        new Vue({
+            el: 'app',
+            data() {
+                return {
+                    friends: [],
+                    showDetails: false,
+                    selectedFriend: ''
+                }
+            }, methods: {
+                showFriend(friend) {
+                    this.selectedFriend = friend;
+                    this.showDetails = true;
+                }
+            },
+            created() {
+                fetch(apiURL)
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(friends => {
+                        this.friends = friends;
+                    })
+            }
+        });
+    </script>
+</body>
+
+</html>
